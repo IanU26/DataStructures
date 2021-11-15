@@ -39,7 +39,7 @@ public:
 	void insertAtBeginning(int x) {
 		Node* temp = new Node();	//Pointer to the new Node as well as creating the new node. The pointer can affect the node.
 		temp->data = x;				//Setting the value of the new node to 'x'
-		temp->link = NULL;			//Since it is the only Node its link will point to NULL
+		temp->link = head;			//Since it is the only Node its link will point to NULL
 		head = temp;					//Here the head pointer is set to equal the temp pointer (which points to the Node we just created).
 	}
 
