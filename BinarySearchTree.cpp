@@ -1,4 +1,11 @@
-//Binary Tree
+//Binary Search Tree
+//A BST has a few distintions from ordinary Trees.
+//1) Each parent node may only have 2 child nodes.
+//2) Child nodes to the left of a parent node must be less than or equal to (in value) the value of the parent node.
+//3) Child nodes to the right of a parent node must be greater (in value) the value of the parent node.
+//Operations Include:
+//1)Inserting a value into tree.
+//2)Searching if a value is in the tree.
 
 #include <iostream>
 
