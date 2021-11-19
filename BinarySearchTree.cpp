@@ -1,11 +1,9 @@
-//Binary Search Tree
-//A BST has a few distintions from ordinary Trees.
-//1) Each parent node may only have 2 child nodes.
-//2) Child nodes to the left of a parent node must be less than or equal to (in value) the value of the parent node.
-//3) Child nodes to the right of a parent node must be greater (in value) the value of the parent node.
-//Operations Include:
-//1)Inserting a value into tree.
-//2)Searching if a value is in the tree.
+//Binary Search Tree: Normal Tree where each parent node can only have at max 2 child nodes.
+//The left child node must be LESS THAN OR EQUAL to the value of the parent.
+//The right child node must be GREATER to the value of the parent.
+//Operations include:
+//1) Inserting a value into the BST.
+//2) Search if a value is present in the BST.
 //3) Finding the MAX value in the BST.
 //4) Finding the MIN value in the BST.
 //5) Finding the Height of the BST.
@@ -14,7 +12,6 @@
 
 #define NOMINMAX
 #define max(a,b)            (((a) > (b)) ? (a) : (b))
-
 #include <iostream>
 
 using namespace std;
@@ -85,6 +82,7 @@ public:
 			}
 		}
 	}
+
 	int Max(Node* r) {
 		int x;
 		if (r == NULL) {											//If root is null the BST is empty.
@@ -148,5 +146,4 @@ int main() {
 	cout << "The maximum value in the BST is: " << s1.Max(s1.root) << "\n";
 	cout << "The minimum value in the BST is: " << s1.Min(s1.root) << "\n";
 	cout << "The height of the the BST is: " << s1.Height(s1.root) << "\n";
-	
 }
