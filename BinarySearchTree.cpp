@@ -6,6 +6,14 @@
 //Operations Include:
 //1)Inserting a value into tree.
 //2)Searching if a value is in the tree.
+//3) Finding the MAX value in the BST.
+//4) Finding the MIN value in the BST.
+//5) Finding the Height of the BST.
+//6) Breadth Order Traversal and printing of the BST.
+//7) Depth Order Traversal and printing of the BST.
+
+#define NOMINMAX
+#define max(a,b)            (((a) > (b)) ? (a) : (b))
 
 #include <iostream>
 
@@ -77,6 +85,48 @@ public:
 			}
 		}
 	}
+	int Max(Node* r) {
+		int x;
+		if (r == NULL) {											//If root is null the BST is empty.
+			cout << "There are no values in the tree \n";
+			return -1;
+		}
+		else {														
+			x = r->value;											//First we store the value of the current node.
+			if (r->right == NULL) {									//If this is the furthest right node, return its value
+				return x;
+			}
+			else {													//If the current node has a right child node, start the process over at the child node. 
+				Max(r->right);
+			}
+		}
+	}
+
+	int Min(Node* r) {
+		int x;
+		if (r == NULL) {											//If root is null the BST is empty.
+			cout << "There are no values in the tree. \n";
+			return -1;
+		}
+		else {
+			x = r->value;											//First we store the value of the current node.
+			if (r->left == NULL) {									//If this is the furthest left node, return its value
+				return x;
+			}
+			else {													//If the current node has a left child node, start the process over at the child node. 
+				Min(r->left);
+			}
+		}
+	}
+
+	int Height(Node* r) {
+		if (r == NULL) {
+			return -1;
+		}
+		else {
+			return ( max(Height(r->left), Height(r->right)) + 1);
+		}
+	}
 
 };
 
@@ -84,10 +134,19 @@ int main() {
 	BinarySearchTree s1;
 	s1.Insert(s1.root, 5);
 	s1.Insert(s1.root, 10);
+	s1.Insert(s1.root, 15);
+	s1.Insert(s1.root, 2);
+	s1.Insert(s1.root, 3);
+	s1.Insert(s1.root, 4);
+
+	cout << "Values inserted into the BST: 2, 3, 4, 5, 10, 15. \n \n";
 	cout << "The root value of the BST is: " << s1.root->value << "\n";
-	cout << "Checking if a value is present in the Binary Search Tree. 1 = Present/0 = Not Present. \n";
+	cout << "Checking if a value is present in the Binary Search Tree. 1 = Present/0 = Not Present. \n \n";
 	cout << "Checking if 5 is in the BST: " <<s1.Search(s1.root, 5) <<"\n";
 	cout << "Checking if 6 is in the BST: " << s1.Search(s1.root, 6) << "\n";
 	cout << "Checking if 10 is in the BST: " << s1.Search(s1.root, 10) << "\n";
+	cout << "The maximum value in the BST is: " << s1.Max(s1.root) << "\n";
+	cout << "The minimum value in the BST is: " << s1.Min(s1.root) << "\n";
+	cout << "The height of the the BST is: " << s1.Height(s1.root) << "\n";
 	
 }
