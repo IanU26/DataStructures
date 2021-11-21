@@ -13,6 +13,7 @@
 #define NOMINMAX
 #define max(a,b)            (((a) > (b)) ? (a) : (b))
 #include <iostream>
+#include<queue>
 
 using namespace std;
 
@@ -122,9 +123,27 @@ public:
 			return -1;
 		}
 		else {
-			return ( max(Height(r->left), Height(r->right)) + 1);
+			return ( max(Height(r->left), Height(r->right) ) + 1);
 		}
 	}
+
+	void LevelOrder(Node* r) {
+		if (r == NULL) {
+			cout << "There are no values in the tree. \n";
+		}
+		else {
+			cout << "The tree current reads in the level order: ";
+			queue<Node*> Q;												//C++ built in Q data structure 
+			Q.push(r);													//Starting with pushing the root pointer to the queue
+			while (!Q.empty()) {										//While the queue is not empty
+				Node* current = Q.front();								//Set 'current' to be the pointer at the front of the queue
+				if(current ->left != NULL) Q.push(current->left);		//Pushing the left child of 'current' into the queue
+				if(current->right != NULL) Q.push(current->right);		//Pushing the right child of 'current' into the queue
+				cout << current->value << " ";							//Printing the value of the front pointer in the queue
+				Q.pop();												//Popping the current pointer, essentially moving to the next level in the tree. 
+			}
+		}
+	}	
 
 };
 
@@ -137,7 +156,7 @@ int main() {
 	s1.Insert(s1.root, 3);
 	s1.Insert(s1.root, 4);
 
-	cout << "Values inserted into the BST: 2, 3, 4, 5, 10, 15. \n \n";
+	cout << "Values inserted (in order) into the BST: 5, 10, 15, 2, 3, 4. \n \n";
 	cout << "The root value of the BST is: " << s1.root->value << "\n";
 	cout << "Checking if a value is present in the Binary Search Tree. 1 = Present/0 = Not Present. \n \n";
 	cout << "Checking if 5 is in the BST: " <<s1.Search(s1.root, 5) <<"\n";
@@ -146,4 +165,5 @@ int main() {
 	cout << "The maximum value in the BST is: " << s1.Max(s1.root) << "\n";
 	cout << "The minimum value in the BST is: " << s1.Min(s1.root) << "\n";
 	cout << "The height of the the BST is: " << s1.Height(s1.root) << "\n";
+	s1.LevelOrder(s1.root);
 }
