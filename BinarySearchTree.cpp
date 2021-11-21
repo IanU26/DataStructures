@@ -145,6 +145,47 @@ public:
 		}
 	}	
 
+	void DLR(Node* r) {
+		if (root == NULL) {
+			cout << "There are no values in the tree. \n";
+		}
+		if (r == NULL) {
+			return;
+		}
+		else {
+			cout << r->value << " ";
+			DLR(r->left);
+			DLR(r->right);
+		}
+	}
+
+	void LDR(Node* r) {
+		if (root == NULL) {
+			cout << "There are no values in the tree. \n";
+		}
+		if (r == NULL) {
+			return;
+		}
+		else {
+			DLR(r->left);
+			cout << r->value << " ";
+			DLR(r->right);
+		}
+	}
+
+	void LRD(Node* r) {
+		if (root == NULL) {
+			cout << "There are no values in the tree. \n";
+		}
+		if (r == NULL) {
+			return;
+		}
+		else {
+			DLR(r->left);
+			DLR(r->right);
+			cout << r->value << " ";
+		}
+	}
 };
 
 int main() {
@@ -166,4 +207,7 @@ int main() {
 	cout << "The minimum value in the BST is: " << s1.Min(s1.root) << "\n";
 	cout << "The height of the the BST is: " << s1.Height(s1.root) << "\n";
 	s1.LevelOrder(s1.root);
+	cout << "The Preorder traversal is: "; s1.DLR(s1.root); cout << "\n";
+	cout << "The Inorder traversal is: "; s1.LDR(s1.root); cout << "\n";
+	cout << "The Postorder traversal is: "; s1.LRD(s1.root); cout << "\n";
 }
