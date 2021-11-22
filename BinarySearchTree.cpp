@@ -9,6 +9,7 @@
 //5) Finding the Height of the BST.
 //6) Breadth Order Traversal and printing of the BST.
 //7) Depth Order Traversal and printing of the BST.
+//8) Checking if a binary tree is a BST in 2 ways: 1) Interval Method 2) Traversing tree Inorder and storing value.
 
 #define NOMINMAX
 #define max(a,b)            (((a) > (b)) ? (a) : (b))
@@ -186,9 +187,63 @@ public:
 			cout << r->value << " ";
 		}
 	}
+	
+	//This is a utility function for IsBST. This is done so we can start IsBST with INT_MAX and INT_MIN but can also still change min and max 
+	//throughout the recursions.
+	//This function traverses the tree and at every node compares the value of the node to the interval that it must be in to be a BST. 
+	//The intervals are initially INT_MAX and INT_MIN but as the function is called recursively it is updated to be specific to each node. 
+	bool IsBSTUtil(Node* r, int min, int max) {
+		if (r == NULL) return true;
+		if (r->value > min && r->value < max && IsBSTUtil(r->left, min, r->value) && IsBSTUtil(r->right, r->value, max)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	//Here we use IsBSTUtil but set the initial max and min to INT_MAX and INT_MIN
+	bool IsBST(Node* r) {
+		return IsBSTUtil(r, INT_MIN, INT_MAX);
+	}
+
+
+
+	//Here we traverse the BT in LDR order. At each node instead of print the value, we store the value in a queue.
+	void IsBST1Util(Node* r, queue<int>& Q) {
+		if (root == NULL) {
+			cout << "There are no values in the tree. \n";
+		}
+		if (r == NULL) {
+			return;
+		}
+		else {
+			DLR(r->left);
+			Q.push(r->value);
+			DLR(r->right);
+		}
+	}
+
+	//We take the queue from IsBST1Util and compare each value in the queue and compare it to the last value. If it is a BST, 
+	//each value will be larger than the last value. If this is fulfilled, then BT is a BST. 
+	bool IsBST1(queue<int>& Q) {
+		int min = INT_MIN;
+		while (!Q.empty()) {
+			int current = Q.front();
+			if (current < min) {
+				return false;
+			}
+			else {
+				min = current;
+				Q.pop();
+			}
+		}
+		return true;
+	}
 };
 
 int main() {
+	queue<int> Q;
 	BinarySearchTree s1;
 	s1.Insert(s1.root, 5);
 	s1.Insert(s1.root, 10);
@@ -210,4 +265,7 @@ int main() {
 	cout << "The Preorder traversal is: "; s1.DLR(s1.root); cout << "\n";
 	cout << "The Inorder traversal is: "; s1.LDR(s1.root); cout << "\n";
 	cout << "The Postorder traversal is: "; s1.LRD(s1.root); cout << "\n";
+	cout << "(Using Interval Solution)Checking if the BT is a BST(Should return 1 because it was created as a BST): " << s1.IsBST(s1.root) << "\n";
+	s1.IsBST1Util(s1.root, Q);
+	cout << "(Using LDR traversal)Checking if the BT is a BST(Should return 1 because it was created as a BST): " << s1.IsBST1(Q) << "\n";
 }
