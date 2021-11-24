@@ -10,6 +10,7 @@
 //6) Breadth Order Traversal and printing of the BST.
 //7) Depth Order Traversal and printing of the BST.
 //8) Checking if a binary tree is a BST in 2 ways: 1) Interval Method 2) Traversing tree Inorder and storing value.
+//9) Deleting a node in the BST while preserving the properties of a BST.
 
 #define NOMINMAX
 #define max(a,b)            (((a) > (b)) ? (a) : (b))
@@ -168,9 +169,9 @@ public:
 			return;
 		}
 		else {
-			DLR(r->left);
+			LDR(r->left);
 			cout << r->value << " ";
-			DLR(r->right);
+			LDR(r->right);
 		}
 	}
 
@@ -182,8 +183,8 @@ public:
 			return;
 		}
 		else {
-			DLR(r->left);
-			DLR(r->right);
+			LRD(r->left);
+			LRD(r->right);
 			cout << r->value << " ";
 		}
 	}
@@ -240,6 +241,44 @@ public:
 		}
 		return true;
 	}
+	
+	//Deleting a node while preserving the properties of a BST. We pass 'r' by reference so we can set it to NULL when needed (in case 3).
+	void Delete(Node*& r, int x) {
+		if (root == NULL) {
+			cout << "There are no values in the tree. \n";
+		}
+		else if (r == NULL) {
+			cout << "Value is not present in the tree. \n";
+		}
+		else if (x < r->value) {				//If the value is less than the node, Delete() again with the left child
+			Delete(r->left, x);
+		}
+		else if (x > r->value) {				//If the value is greater than the node, Delete() again with the right child
+			Delete(r->right, x);
+		}
+
+		//Here we found the node we want to delete. Now there are a couple cases. 
+		// 1) The node is a leaf node and we can simply delete it. 
+		// 2) The node only has one child node. In this case we can simply connect the node's parent to the node's child.
+		// 3) The node has two children. In this case we find the minimum value in the node's right subtree. This value will replace the node's 
+		//    value. 
+		else if (r->value == x) {				
+			if (r->left == NULL && r->right == NULL) {			//Case 1
+				r = NULL;
+			}
+			else if (r->left == NULL) {							//Case 2
+				r = r->right;
+			}
+			else if (r->right == NULL) {						//Case 2
+				r = r->left;
+			}
+			else {												//Case 3
+				int min = Min(r->right);						//Finding the minimum value in the subtree to the node.
+				r->value = min;									//Replacing the node's value with the minimum value.
+				Delete(r->right, min);							//Deleting the original minimum value node. This works because the minimum value node can't have a left child. 
+			}
+		}
+	}
 };
 
 int main() {
@@ -268,4 +307,6 @@ int main() {
 	cout << "(Using Interval Solution)Checking if the BT is a BST(Should return 1 because it was created as a BST): " << s1.IsBST(s1.root) << "\n";
 	s1.IsBST1Util(s1.root, Q);
 	cout << "(Using LDR traversal)Checking if the BT is a BST(Should return 1 because it was created as a BST): " << s1.IsBST1(Q) << "\n";
+	cout << "Now we use the delete function to delete the value 10 from the DST. \n"; s1.Delete(s1.root, 10);
+	cout << "The Inorder traversal is: "; s1.LDR(s1.root); cout << "\n";
 }
